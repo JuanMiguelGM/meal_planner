@@ -1,15 +1,26 @@
+
 <% @shopping_list.shopping_list_items.each do |shopping_list_item| %>
-  <li>
+<div class="form-group w-100">
+  <li class="list-group-item w-100 borderless">
     <%= form.fields_for :shopping_list_items, shopping_list_item do |shopping_list_item_form| %>
-      <%= shopping_list_item_form.text_field :name %>
-      <%= shopping_list_item_form.text_field :amount %>
-      <%= shopping_list_item_form.select :units, [[ 'Gramos', :grams ], ['Piezas', :pieces]] %>
-      <%= shopping_list_item_form.check_box :bought %>
-      <% if shopping_list_item.id %>
-        <%= link_to 'Remove', shopping_list_item_path(shopping_list_item), method: :delete, remote: true, class: 'delete_shopping_list_item' %>
-      <% else %>
-        <%= link_to 'Remove', '#', onclick: "$(this).closest('li').remove();", remote: true %>
-      <% end %>
+      <div class="shopping-list-item-left-section">
+        <%= shopping_list_item_form.text_field :name, class: 'form-control', :placeholder => "Ingredient" %>
+        <%= shopping_list_item_form.text_field :amount, class: 'form-control', :placeholder => "Amount"  %>
+        <%= shopping_list_item_form.select :units, [[ 'Gramos', :grams ], ['Piezas', :pieces]], {}, { class: 'form-control shopping-list-item-units' } %>
+      </div>
+      <div class="shopping-list-item-right-section">
+        <%= shopping_list_item_form.check_box :bought, class: 'form-check-input' %>
+        <% if shopping_list_item.id %>
+          <%= link_to shopping_list_item_path(shopping_list_item), method: :delete, remote: true, class: 'delete_shopping_list_item' do %>
+            <i class="fa fa-trash fa-lg delete-row"></i>
+          <% end %>
+        <% else %>
+          <%= link_to '#', onclick: "$(this).closest('li').remove();", remote: true do %>
+            <i class="fa fa-trash fa-lg delete-row"></i>
+          <% end %>
+        <% end %>
+      </div>
     <% end %>
   </li>
+</div>  
 <% end %>
